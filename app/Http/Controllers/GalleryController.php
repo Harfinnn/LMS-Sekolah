@@ -7,19 +7,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
-class PengumumanController extends Controller
+class GalleryController extends Controller
 {
     public function index()
     {
         // Ambil gambar terbaru duluan dan paginate
         $images = GalleryImage::orderBy('created_at', 'desc')->paginate(12);
 
-        return view('pengumuman.index', compact('images'));
+        return view('gallery.index', compact('images'));
     }
 
     public function create()
     {
-        return view('pengumuman.create');
+        return view('gallery.create');
     }
 
     public function store(Request $request)
@@ -31,7 +31,7 @@ class PengumumanController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $file) {
                 $filename = time() . '_' . Str::random(8) . '.' . $file->getClientOriginalExtension();
-                $path = $file->storeAs('pengumuman', $filename, 'public');
+                $path = $file->storeAs('gallery', $filename, 'public');
 
                 GalleryImage::create([
                     'path' => $path,
@@ -39,7 +39,7 @@ class PengumumanController extends Controller
             }
         }
 
-        return redirect()->route('pengumuman.index')->with('success', 'Gambar berhasil diunggah.');
+        return redirect()->route('gallery.index')->with('success', 'Gambar berhasil diunggah.');
     }
 
     public function destroy(GalleryImage $gallery)
@@ -71,6 +71,6 @@ class PengumumanController extends Controller
 
         $gallery->delete();
 
-        return redirect()->route('pengumuman.index')->with('success', 'Gambar dihapus.');
+        return redirect()->route('gallery.index')->with('success', 'Gambar dihapus.');
     }
 }

@@ -20,7 +20,7 @@
             </div>
             @endif
 
-            <form action="{{ route('pengumuman.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            <form action="{{ route('gallery.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
                 @csrf
 
                 <div>
@@ -50,7 +50,7 @@
                         Upload
                     </button>
 
-                    <a href="{{ route('pengumuman.index') }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition">
+                    <a href="{{ route('gallery.index') }}" class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-gray-100 text-gray-700 hover:bg-gray-200 transition">
                         Batal
                     </a>
 

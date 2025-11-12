@@ -1,6 +1,4 @@
-// public/js/gallery-upload.js
 (function () {
-    // pastikan script dieksekusi setelah DOM siap (defer pada tag <script> juga membantu)
     function init() {
         const input = document.getElementById("images");
         const preview = document.getElementById("preview");
@@ -9,7 +7,6 @@
         const MAX_SIZE = 5 * 1024 * 1024; // 5MB
 
         if (!input || !preview || !dropzone || !clearBtn) {
-            // elemen tidak ada => nada to do
             return;
         }
 
@@ -66,7 +63,6 @@
             });
         }
 
-        // simple escape helper for filenames inserted into HTML
         function escapeHtml(unsafe) {
             return unsafe
                 .replace(/&/g, "&amp;")
@@ -80,7 +76,6 @@
             showPreview(e.target.files);
         });
 
-        // Drag & drop UX
         ["dragenter", "dragover"].forEach((evt) =>
             dropzone.addEventListener(evt, (e) => {
                 e.preventDefault();
@@ -108,18 +103,15 @@
         dropzone.addEventListener("drop", (e) => {
             const dt = e.dataTransfer;
             if (!dt) return;
-            // Note: assigning files langsung ke input hanya bekerja di beberapa browser.
-            // Kita set input.files = dt.files supaya form submission bekerja jika didukung.
             try {
                 input.files = dt.files;
             } catch (err) {
-                // ignore jika tidak diizinkan oleh browser
+                
             }
             showPreview(dt.files);
         });
 
         clearBtn.addEventListener("click", () => {
-            // reset input file
             input.value = "";
             clearPreview();
         });

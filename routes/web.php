@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\Auth\ForgotResetController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\PengumumanController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -35,11 +35,11 @@ Route::get('/home', function () {
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('guru', GuruController::class);
     Route::resource('siswa', SiswaController::class);
-    Route::resource('pengumuman', PengumumanController::class)->parameters([
-        'pengumuman' => 'gallery'
-    ])->names('pengumuman');
+    Route::resource('gallery', GalleryController::class)->parameters([
+        'gallery' => 'gallery'
+    ])->names('gallery');
     // route untuk reorder AJAX
-    Route::post('pengumuman/reorder', [PengumumanController::class, 'reorder'])->name('pengumuman.reorder');
+    Route::post('gallery/reorder', [GalleryController::class, 'reorder'])->name('gallery.reorder');
 });
 
 // Logout
