@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InformationController;
 use App\Http\Controllers\Auth\ForgotResetController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\GalleryController;
@@ -40,6 +41,7 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     ])->names('gallery');
     // route untuk reorder AJAX
     Route::post('gallery/reorder', [GalleryController::class, 'reorder'])->name('gallery.reorder');
+    Route::resource('information', InformationController::class);
 });
 
 // Logout

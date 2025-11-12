@@ -58,8 +58,14 @@
          </li>
          <li>
             <a href="{{ route('gallery.index') }}" class="flex items-center p-4 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+               <i class="fa fa-photo-film w-5 h-5 text-gray-500 group-hover:text-gray-900 dark:group-hover:text-white"></i>
+               <span class="ms-3">Media LMS</span>
+            </a>
+         </li>
+         <li>
+            <a href="{{ route('information.index') }}" class="flex items-center p-4 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <i class="fa fa-bullhorn w-5 h-5 text-gray-500 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-               <span class="ms-3">Pengumuman</span>
+               <span class="ms-3">Informasi</span>
             </a>
          </li>
          <li>
