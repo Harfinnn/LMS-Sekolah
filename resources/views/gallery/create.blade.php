@@ -63,5 +63,7 @@
     </div>
 </div>
 
+@section('scripts')
 <script src="{{ asset('js/gallery-upload.js') }}" defer></script>
+
 @endsection

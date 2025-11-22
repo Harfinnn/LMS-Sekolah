@@ -2,6 +2,7 @@ import './navbar';
 import 'flowbite';
 import Typed from 'typed.js';
 import './information';
+import './information-upload'
 import './gallery'
 import './gallery-upload'
 import './alert'
