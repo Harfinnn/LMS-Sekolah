@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (!provSelect || !kabSelect || !kecSelect || !kelSelect) return;
 
-    // Ambil data-selected dari atribut (jika ada)
     const selected = {
         provinsi: provSelect.dataset.selected || "",
         kabupaten: kabSelect.dataset.selected || "",
@@ -14,14 +13,12 @@ document.addEventListener("DOMContentLoaded", async () => {
         kelurahan: kelSelect.dataset.selected || "",
     };
 
-    // Cache untuk data yang sudah di-fetch
     const cache = {
         regencies: {},
         districts: {},
         villages: {},
     };
 
-    // Helper untuk buat option
     function makeOption(name) {
         const opt = document.createElement("option");
         opt.value = name;
@@ -29,24 +26,19 @@ document.addEventListener("DOMContentLoaded", async () => {
         return opt;
     }
 
-    // Load Provinsi
     const provinces = await fetch("/api/provinces").then((res) => res.json());
 
-    // Kosongkan & tambah placeholder
     provSelect.innerHTML = '<option value="">Pilih Provinsi</option>';
     provinces.forEach((p) => {
         const opt = makeOption(p.name);
         provSelect.add(opt);
     });
 
-    // Jika ada nilai awal, pilih dan trigger change
     if (selected.provinsi) {
         provSelect.value = selected.provinsi;
-        // triggar change secara manual supaya kabupaten ter-load
         provSelect.dispatchEvent(new Event("change"));
     }
 
-    // Event Provinsi → Kabupaten
     provSelect.addEventListener("change", async function () {
         kabSelect.innerHTML = '<option value="">Pilih Kabupaten</option>';
         kecSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
@@ -69,14 +61,12 @@ document.addEventListener("DOMContentLoaded", async () => {
             kabSelect.add(opt);
         });
 
-        // jika ada nilai kabupaten awal dan cocok, pilih & trigger
         if (selected.kabupaten) {
             kabSelect.value = selected.kabupaten;
             kabSelect.dispatchEvent(new Event("change"));
         }
     });
 
-    // Event Kabupaten → Kecamatan
     kabSelect.addEventListener("change", async function () {
         kecSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
         kelSelect.innerHTML = '<option value="">Pilih Kelurahan</option>';

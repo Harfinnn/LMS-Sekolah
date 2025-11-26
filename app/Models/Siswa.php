@@ -28,7 +28,6 @@ class Siswa extends Model
         'kampung',
     ];
 
-    // Relasi ke user
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -37,7 +36,6 @@ class Siswa extends Model
     protected static function booted()
     {
         static::deleting(function ($siswa) {
-            // hapus user terkait (jika ada)
             if ($siswa->user) {
                 $siswa->user()->delete();
             }

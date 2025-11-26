@@ -25,10 +25,8 @@ function initSwiper() {
     }
 }
 
-// Jalankan pertama kali setelah halaman siap
 document.addEventListener("DOMContentLoaded", initSwiper);
 
-// Jalankan ulang setiap kali ukuran layar berubah
 window.addEventListener("resize", () => {
     initSwiper();
 });

@@ -27,8 +27,6 @@
 
     <x-information />
 
-    <x-partners />
-
     <x-location />
 
     <x-footer />

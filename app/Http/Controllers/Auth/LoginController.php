@@ -23,7 +23,6 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
 
-            // Semua role bisa login → redirect ke home
             return redirect()->intended('/home');
         }
 

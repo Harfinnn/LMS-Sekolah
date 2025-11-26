@@ -1,7 +1,6 @@
 <div id="media" class="container mx-auto px-10 py-12">
     <h2 class="text-3xl font-bold mb-8 text-green-600">Media E-Learning</h2>
 
-    <!-- GRID untuk layar besar -->
     <div id="galleryGrid" class="hidden md:grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
         @foreach (array_slice(array_reverse($images), 0, 12) as $index => $image)
         @php
@@ -18,7 +17,6 @@
                 data-modal-toggle="imageModal{{ $index }}">
         </div>
 
-        <!-- Modal -->
         <div id="imageModal{{ $index }}" tabindex="-1" aria-hidden="true"
             class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)]">
             <div class="relative p-4 w-full max-w-3xl max-h-full">
@@ -44,7 +42,6 @@
         @endforeach
     </div>
 
-    <!-- SWIPER untuk layar kecil (tampilkan semua gambar) -->
     <div class="md:hidden">
         <div class="swiper mySwiper">
             <div class="swiper-wrapper">
@@ -59,7 +56,6 @@
                 @endforeach
             </div>
 
-            <!-- Pagination -->
             <div class="mt-10">
                 <div class="swiper-pagination"></div>
             </div>

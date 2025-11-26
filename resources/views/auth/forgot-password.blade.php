@@ -7,7 +7,6 @@
 
 <body class="flex items-center justify-center min-h-screen bg-gray-100">
 
-    {{-- ALERT DI LUAR FORM --}}
     @if(session('success'))
     <div id="alert-success" class="fixed top-5 left-1/2 transform -translate-x-1/2 w-full max-w-md flex items-center p-4 text-sm text-green-800 rounded-lg bg-green-50 shadow-lg z-50 transition-all duration-500" role="alert">
         <svg class="shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
@@ -23,7 +22,6 @@
 
     <div class="w-full max-w-md bg-white p-8 rounded-2xl shadow-lg">
 
-        {{-- Jika ada token reset (halaman ubah password) --}}
         @if(isset($token))
         <h2 class="text-2xl font-bold text-center text-green-600 mb-6">Reset Password</h2>
 
@@ -31,7 +29,6 @@
             @csrf
             <input type="hidden" name="token" value="{{ $token }}">
 
-            {{-- Email --}}
             <div class="relative z-0">
                 <input type="email" name="email" id="email" value="{{ request('email') }}"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2
@@ -49,7 +46,6 @@
                 @enderror
             </div>
 
-            {{-- Password Baru --}}
             <div class="relative z-0">
                 <input type="password" name="password" id="password"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2
@@ -67,7 +63,6 @@
                 @enderror
             </div>
 
-            {{-- Konfirmasi Password --}}
             <div class="relative z-0">
                 <input type="password" name="password_confirmation" id="password_confirmation"
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-green-600 focus:border-green-600 appearance-none focus:outline-none focus:ring-0 peer"
@@ -85,7 +80,6 @@
             </button>
         </form>
 
-        {{-- Jika belum ada token (halaman lupa password) --}}
         @else
         <h2 class="text-2xl font-bold text-center text-green-600 mb-6">Lupa Password</h2>
         <p class="text-gray-600 text-sm text-center mb-6">

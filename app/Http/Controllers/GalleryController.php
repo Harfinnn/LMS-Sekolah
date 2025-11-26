@@ -11,7 +11,6 @@ class GalleryController extends Controller
 {
     public function index()
     {
-        // Ambil gambar terbaru duluan dan paginate
         $images = GalleryImage::orderBy('created_at', 'desc')->paginate(12);
 
         return view('gallery.index', compact('images'));
@@ -25,7 +24,7 @@ class GalleryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'images.*' => 'required|image|max:5120', // max 5MB
+            'images.*' => 'required|image|max:5120',
         ]);
 
         if ($request->hasFile('images')) {
@@ -47,7 +46,6 @@ class GalleryController extends Controller
         $path = $gallery->path;
 
         if ($path) {
-            // Normalisasi path supaya aman dihapus dari disk 'public'
             if (Str::startsWith($path, 'http')) {
                 $parsed = parse_url($path, PHP_URL_PATH) ?: '';
                 $pos = strpos($parsed, '/storage/');
@@ -65,7 +63,6 @@ class GalleryController extends Controller
                     Storage::disk('public')->delete($path);
                 }
             } catch (\Exception $e) {
-                // logging optional: \Log::error($e->getMessage());
             }
         }
 

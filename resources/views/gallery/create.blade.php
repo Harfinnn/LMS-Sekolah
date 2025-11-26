@@ -26,7 +26,6 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">Pilih gambar (boleh lebih dari 1)</label>
 
-                    <!-- Custom file input -->
                     <label for="images" id="dropzone" class="relative flex cursor-pointer items-center justify-center w-full h-44 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-lg bg-gray-50 dark:bg-gray-900 hover:border-gray-300 transition-colors">
                         <input id="images" name="images[]" type="file" multiple accept="image/*" class="sr-only" />
                         <div class="text-center px-4">
@@ -38,7 +37,6 @@
                         </div>
                     </label>
 
-                    <!-- Preview -->
                     <div id="preview" class="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
                 </div>
 

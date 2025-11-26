@@ -13,7 +13,6 @@
         <form action="{{ route('login') }}" method="POST" class="space-y-5">
             @csrf
 
-            {{-- Email --}}
             <div class="relative z-0">
                 <input type="email" name="email" id="email" value="{{ old('email') }}" 
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2
@@ -32,7 +31,6 @@
                 @enderror
             </div>
 
-            {{-- Password --}}
             <div class="relative z-0">
                 <input type="password" name="password" id="password" 
                     class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2

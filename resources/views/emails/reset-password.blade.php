@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width">
 <title>Reset Password</title>
 <style>
-    /* Inline-friendly styles for email clients */
     body { margin:0; padding:0; background:#f4f7f9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial; }
     .email-wrap { width:100%; padding:30px 16px; box-sizing:border-box; }
     .card { max-width:600px; margin:0 auto; background:#ffffff; border-radius:12px; overflow:hidden; box-shadow:0 6px 18px rgba(12,12,12,0.06); }

@@ -1,7 +1,5 @@
 <div class="flex flex-col lg:flex-row gap-[30px]">
-        <!-- === Statistic Summary === -->
         <section class="grid grid-cols-2 gap-[30px] w-full lg:w-[500px]">
-            <!-- Total Students -->
             <article class="flex flex-col rounded-[20px] p-5 gap-5 border-2 border-gray-700 dark:bg-gray-800">
                 <img src="/icons/profile-2user-green.svg" class="w-[46px] h-[46px]" alt="Total Students Icon" />
                 <div>
@@ -10,7 +8,6 @@
                 </div>
             </article>
 
-            <!-- Total Courses -->
             <article class="flex flex-col rounded-[20px] p-5 gap-5 border-2 border-gray-700 dark:bg-gray-800">
                 <img src="/icons/note-favorite-green.svg" class="w-[46px] h-[46px]" alt="Total Courses Icon" />
                 <div>
@@ -19,7 +16,6 @@
                 </div>
             </article>
 
-            <!-- Video Content -->
             <article class="flex flex-col rounded-[20px] p-5 gap-5 border-2 border-gray-700 dark:bg-gray-800">
                 <img src="/icons/video-play-green.svg" class="w-[46px] h-[46px]" alt="Video Content Icon" />
                 <div>
@@ -28,7 +24,6 @@
                 </div>
             </article>
 
-            <!-- Text Content -->
             <article class="flex flex-col rounded-[20px] p-5 gap-5 border-2 border-gray-700 dark:bg-gray-800">
                 <img src="/icons/note-green.svg" class="w-[46px] h-[46px]" alt="Text Content Icon" />
                 <div>
@@ -38,7 +33,6 @@
             </article>
         </section>
 
-        <!-- === Progress Circle (Rapport) === -->
         <aside class="flex flex-col flex-1 rounded-[20px] p-5 gap-5 border-2 border-gray-700 dark:bg-gray-800 shadow-[0_4px_4px_0_#E0E2EF]">
             <div class="relative flex items-center justify-center m-auto rounded-full w-[230px] h-[230px]">
                 <div class="absolute rounded-full w-[230px] h-[230px]"

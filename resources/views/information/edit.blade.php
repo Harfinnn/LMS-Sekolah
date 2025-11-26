@@ -8,29 +8,20 @@
             <a href="{{ route('information.index') }}" class="text-sm px-3 py-1.5 border border-green-600 text-green-300 rounded-md hover:bg-green-600 hover:text-white">Kembali</a>
         </div>
 
-        @if ($errors->any())
-        <div class="mb-4 p-3 rounded border border-red-700 bg-red-900/40 text-red-300">
-            <strong>Terjadi kesalahan:</strong>
-            <ul class="mt-2 list-disc list-inside text-sm text-red-200">
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-
         <form action="{{ route('information.update', $information->id) }}" method="POST" enctype="multipart/form-data" class="space-y-5">
             @csrf
             @method('PUT')
 
             <div>
                 <label class="block text-sm font-medium text-slate-300 mb-2">Judul <span class="text-green-400">*</span></label>
-                <input type="text" name="judul" value="{{ old('judul', $information->judul) }}" class="w-full bg-slate-800 border border-slate-700 text-slate-100 p-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan judul informasi" required>
+                <input type="text" name="judul" value="{{ old('judul', $information->judul) }}" class="w-full bg-slate-800 border border-slate-700 text-slate-100 p-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan judul informasi">
+                @error('judul') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-slate-300 mb-2">Deskripsi <span class="text-green-400">*</span></label>
-                <textarea name="deskripsi" rows="6" class="w-full bg-slate-800 border border-slate-700 text-slate-100 p-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Tuliskan deskripsi singkat..." required>{{ old('deskripsi', $information->deskripsi) }}</textarea>
+                <textarea name="deskripsi" rows="6" class="w-full bg-slate-800 border border-slate-700 text-slate-100 p-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Tuliskan deskripsi singkat..." >{{ old('deskripsi', $information->deskripsi) }}</textarea>
+                @error('deskripsi') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                 <p class="text-xs text-slate-400 mt-1">Gunakan paragraf untuk memisahkan poin penting.</p>
             </div>
 
@@ -38,19 +29,19 @@
                 <label class="block text-sm font-medium text-slate-300 mb-2">Gambar <span class="text-green-400">*</span></label>
 
                 <div class="flex flex-col md:flex-row items-start gap-4">
-                    <!-- Dropzone / upload area -->
                     <label id="dropzone" class="flex-1 bg-slate-800 border border-dashed border-green-700 rounded-lg p-4 text-center cursor-pointer hover:bg-slate-700 transition-shadow duration-150">
                         <input type="file" name="gambar" id="gambar" class="hidden" accept="image/*">
 
                         <div id="placeholder" class="flex flex-col items-center justify-center gap-2 text-slate-400 {{ $information->gambar ? 'hidden' : '' }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-400" viewBox="0 0 20 20" fill="currentColor"><path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm6 4a3 3 0 100 6 3 3 0 000-6z"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm6 4a3 3 0 100 6 3 3 0 000-6z" />
+                            </svg>
                             <div class="text-sm text-slate-400">Klik untuk memilih gambar atau seret ke sini</div>
                         </div>
 
                         <img id="preview" class="mx-auto rounded-lg max-h-40 {{ $information->gambar ? '' : 'hidden' }}" alt="Preview Gambar" data-original-src="{{ $information->gambar ? asset($information->gambar) : '' }}" src="{{ $information->gambar ? asset($information->gambar) : '' }}">
                     </label>
 
-                    <!-- Side info + controls -->
                     <div class="w-full md:w-36 text-xs text-slate-400 flex flex-col gap-3">
                         <div>
                             <p class="font-medium text-slate-200">Panduan:</p>
@@ -59,11 +50,6 @@
                                 <li>Ukuran maksimal: 2MB</li>
                                 <li>Rasio: 16:9 atau 4:3 direkomendasikan</li>
                             </ul>
-                        </div>
-
-                        <div class="flex gap-2">
-                            <button type="button" id="clearBtn" class="flex-1 text-xs px-2 py-1 border rounded text-slate-200 hover:bg-slate-800">Hapus</button>
-                            <label for="gambar" class="flex-1 text-xs px-2 py-1 border border-green-600 rounded text-green-300 hover:bg-green-600 hover:text-white text-center cursor-pointer">Pilih</label>
                         </div>
                     </div>
                 </div>

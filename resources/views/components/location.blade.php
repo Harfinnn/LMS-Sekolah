@@ -5,8 +5,8 @@
 'placeName' => 'SMK Negeri 4 Padalarang'
 ])
 
-<section id="lokasi" aria-labelledby="location-heading" class="bg-gray-50 py-16">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section id="lokasi" aria-labelledby="location-heading" class="bg-gray-50 mb-20">
+    <div class="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
 
             <div class="space-y-6">
@@ -35,7 +35,6 @@
                         </div>
                     </dl>
                     <div class="mt-6 flex gap-3">
-                        <!-- Tombol: Buka di Google Maps -->
                         <a
                             href="https://www.google.com/maps/search/?api=1&query={{ $lat }},{{ $lng }}"
                             target="_blank"
@@ -44,7 +43,6 @@
                             <i class="fa-solid fa-map-location-dot mr-2"></i> Buka di Google Maps
                         </a>
 
-                        <!-- Tombol: Dapatkan Arah di Google Maps -->
                         <a
                             href="https://www.google.com/maps/dir/?api=1&destination={{ $lat }},{{ $lng }}"
                             target="_blank"
@@ -56,7 +54,6 @@
                 </div>
             </div>
 
-            <!-- Map Column -->
             <div class="relative w-full h-80 rounded-lg overflow-hidden shadow">
                 <div
                     id="map-location-{{ md5($address.$lat.$lng) }}"

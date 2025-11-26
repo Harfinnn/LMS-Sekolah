@@ -8,47 +8,39 @@
             <a href="{{ route('information.index') }}" class="text-sm px-3 py-1.5 border border-green-600 text-green-300 rounded-md hover:bg-green-600 hover:text-white">Kembali</a>
         </div>
 
-        @if ($errors->any())
-        <div class="mb-4 p-3 rounded border border-red-700 bg-red-900/40 text-red-300">
-            <strong>Terjadi kesalahan:</strong>
-            <ul class="mt-2 list-disc list-inside text-sm text-red-200">
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-        @endif
-
         <form action="{{ route('information.store') }}" method="POST" enctype="multipart/form-data" class="space-y-5">
             @csrf
 
             <div>
                 <label class="block text-sm font-medium text-slate-300 mb-2">Judul <span class="text-green-400">*</span></label>
-                <input type="text" name="judul" value="{{ old('judul') }}" class="w-full bg-slate-800 border border-slate-700 text-slate-100 p-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan judul informasi" required>
+                <input type="text" name="judul" value="{{ old('judul') }}" class="w-full bg-slate-800 border border-slate-700 text-slate-100 p-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Masukkan judul informasi">
+                @error('judul') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-slate-300 mb-2">Deskripsi <span class="text-green-400">*</span></label>
-                <textarea name="deskripsi" rows="6" class="w-full bg-slate-800 border border-slate-700 text-slate-100 p-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Tuliskan deskripsi singkat..." required>{{ old('deskripsi') }}</textarea>
+                <textarea name="deskripsi" rows="6" class="w-full bg-slate-800 border border-slate-700 text-slate-100 p-3 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="Tuliskan deskripsi singkat...">{{ old('deskripsi') }}</textarea>
                 <p class="text-xs text-slate-400 mt-1">Gunakan paragraf untuk memisahkan poin penting.</p>
+                @error('deskripsi') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <div>
                 <label class="block text-sm font-medium text-slate-300 mb-2">Gambar <span class="text-green-400">*</span></label>
 
                 <div class="flex flex-col md:flex-row items-start gap-4">
-                    <!-- Dropzone / upload area -->
                     <label id="dropzone" class="flex-1 bg-slate-800 border border-dashed border-green-700 rounded-lg p-4 text-center cursor-pointer hover:bg-slate-700 transition-shadow duration-150">
-                        <input type="file" name="gambar" id="gambar" class="hidden" accept="image/*" required>
+                        <input type="file" name="gambar" id="gambar" class="hidden" accept="image/*">
 
                         <div id="placeholder" class="flex flex-col items-center justify-center gap-2 text-slate-400">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-slate-400" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm6 4a3 3 0 100 6 3 3 0 000-6z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto h-10 w-10 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V7.414A2 2 0 0016.586 6L13 2.414A2 2 0 0011.586 2H4zm7 11a3 3 0 11-6 0 3 3 0 016 0z" clip-rule="evenodd" />
                             </svg>
                             <div class="text-sm text-slate-400">Klik untuk memilih gambar atau seret ke sini</div>
                         </div>
 
                         <img id="preview" class="mx-auto rounded-lg max-h-40 hidden" alt="Preview Gambar">
+
+                        @error('gambar') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                     </label>
 
                     <!-- Side info + controls -->
@@ -62,8 +54,8 @@
                             </ul>
                         </div>
                     </div>
-                </div>
 
+                </div>
             </div>
 
             <div>

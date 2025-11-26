@@ -8,8 +8,11 @@
     </div>
 
     @if(session('success'))
-    <div class="mb-4 p-3 bg-green-100 text-green-800 rounded">
-        {{ session('success') }}
+    <div class="mb-4 px-4 py-3 rounded-lg bg-green-100 border border-green-400 text-green-800 flex items-center justify-between">
+        <span><i class="fa-solid fa-circle-check mr-2"></i> {{ session('success') }}</span>
+        <button type="button" onclick="this.parentElement.remove()" class="text-green-700 hover:text-green-900">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
     </div>
     @endif
 
@@ -21,7 +24,7 @@
                 <form action="{{ route('gallery.destroy', $img->id) }}" method="POST">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="px-2 py-1 bg-red-500 text-white rounded">Hapus</button>
+                    <button type="button" class="px-2 py-1 bg-red-500 text-white rounded btn-delete">Hapus</button>
                 </form>
             </div>
         </div>

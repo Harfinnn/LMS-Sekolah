@@ -4,7 +4,7 @@
         const preview = document.getElementById("preview");
         const dropzone = document.getElementById("dropzone");
         const clearBtn = document.getElementById("clearBtn");
-        const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+        const MAX_SIZE = 5 * 1024 * 1024;
 
         if (!input || !preview || !dropzone || !clearBtn) {
             return;

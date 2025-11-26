@@ -32,7 +32,6 @@
             @endforeach
         </div>
 
-        <!-- Navigasi & Pagination -->
         <div class="mt-20">
             <div class="swiper-pagination"></div>
         </div>

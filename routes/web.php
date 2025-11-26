@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\ForgotResetController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\GuruController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\SiswaController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,14 +22,12 @@ Route::middleware('guest')->group(function () {
     Route::post('/forgot-password', [ForgotResetController::class, 'sendResetLink'])
         ->name('password.email');
 
-    // Reset Password (link dari email)
     Route::get('/reset-password/{token}', [ForgotResetController::class, 'showForm'])
         ->name('password.reset');
     Route::post('/reset-password', [ForgotResetController::class, 'resetPassword'])
         ->name('password.update');
 });
 
-// Halaman home (hanya untuk user yang sudah login)
 Route::get('/home', function () {
     return view('home');
 })->middleware('auth')->name('home');
@@ -39,33 +38,28 @@ Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('gallery', GalleryController::class)->parameters([
         'gallery' => 'gallery'
     ])->names('gallery');
-    // route untuk reorder AJAX
     Route::post('gallery/reorder', [GalleryController::class, 'reorder'])->name('gallery.reorder');
     Route::resource('information', InformationController::class);
+    Route::resource('schedule', ScheduleController::class);
 });
 
-// Logout
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Provinsi
 Route::get('/api/provinces', function () {
     $json = file_get_contents('https://emsifa.github.io/api-wilayah-indonesia/api/provinces.json');
     return response($json)->header('Content-Type', 'application/json');
 });
 
-// Kabupaten
 Route::get('/api/regencies/{provinceId}', function ($provinceId) {
     $json = file_get_contents("https://emsifa.github.io/api-wilayah-indonesia/api/regencies/$provinceId.json");
     return response($json)->header('Content-Type', 'application/json');
 });
 
-// Kecamatan
 Route::get('/api/districts/{regencyId}', function ($regencyId) {
     $json = file_get_contents("https://emsifa.github.io/api-wilayah-indonesia/api/districts/$regencyId.json");
     return response($json)->header('Content-Type', 'application/json');
 });
 
-// Kelurahan
 Route::get('/api/villages/{districtId}', function ($districtId) {
     $json = file_get_contents("https://emsifa.github.io/api-wilayah-indonesia/api/villages/$districtId.json");
     return response($json)->header('Content-Type', 'application/json');

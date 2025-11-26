@@ -42,7 +42,6 @@ class GuruController extends Controller
 
         DB::beginTransaction();
         try {
-            // buat user
             $user = User::create([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
@@ -50,7 +49,6 @@ class GuruController extends Controller
                 'role' => 'guru',
             ]);
 
-            // buat guru
             Guru::create([
                 'user_id' => $user->id,
                 'mata_pelajaran' => $request->input('mata_pelajaran'),
@@ -82,7 +80,6 @@ class GuruController extends Controller
 
     public function update(Request $request, Guru $guru)
     {
-        // validasi: gunakan Rule::unique untuk email, ignore user id
         $request->validate([
             'name' => 'sometimes|required|string|max:255',
             'email' => [
@@ -105,7 +102,6 @@ class GuruController extends Controller
             'kampung' => 'nullable|string|max:50',
         ]);
 
-        // field guru yang boleh diupdate
         $guruFields = [
             'mata_pelajaran',
             'phone',
@@ -122,7 +118,6 @@ class GuruController extends Controller
 
         DB::beginTransaction();
         try {
-            // update user jika dikirim
             $user = $guru->user;
             if ($user) {
                 $userData = [];
@@ -140,7 +135,6 @@ class GuruController extends Controller
                 }
             }
 
-            // update data guru: hanya field yang dikirim oleh form
             $updateData = [];
             foreach ($guruFields as $field) {
                 if ($request->has($field)) {
@@ -168,7 +162,6 @@ class GuruController extends Controller
             $user = $guru->user;
             $guru->delete();
 
-            // optional: hapus user terkait
             if ($user) {
                 $user->delete();
             }

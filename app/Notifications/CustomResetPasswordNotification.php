@@ -32,13 +32,11 @@ class CustomResetPasswordNotification extends Notification
 
     public function toMail($notifiable)
     {
-        // Build URL dengan cara yang aman (relative path + url())
         $url = url(route('password.reset', [
             'token' => $this->token,
             'email' => $notifiable->getEmailForPasswordReset()
         ], false));
 
-        // Data untuk blade email
         $data = [
             'url' => $url,
             'user' => $notifiable,

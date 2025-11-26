@@ -18,7 +18,6 @@
         <form action="{{ route('guru.store') }}" method="POST" class="space-y-4">
             @csrf
 
-            <!-- Nama Guru -->
             <div>
                 <label class="block text-gray-700 dark:text-gray-200 mb-1">Nama Guru</label>
                 <input type="text" name="name" placeholder="Masukkan nama"
@@ -27,7 +26,6 @@
                 @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Email -->
             <div>
                 <label class="block text-gray-700 dark:text-gray-200 mb-1">Email</label>
                 <input type="email" name="email" placeholder="Masukkan email"
@@ -36,7 +34,6 @@
                 @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Password -->
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block text-gray-700 dark:text-gray-200 mb-1">Password</label>
@@ -51,7 +48,6 @@
                 </div>
             </div>
 
-            <!-- Mata Pelajaran -->
             <div>
                 <label class="block text-gray-700 dark:text-gray-200 mb-1">Mata Pelajaran</label>
                 <input type="text" name="mata_pelajaran" placeholder="Contoh: Matematika"
@@ -60,7 +56,6 @@
                 @error('mata_pelajaran') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
-            <!-- Phone -->
             <div>
                 <label class="block text-gray-700 dark:text-gray-200 mb-1">Phone</label>
                 <input type="text" name="phone"
@@ -68,9 +63,7 @@
                     value="{{ old('phone') }}">
             </div>
 
-            <!-- Alamat: Provinsi, Kabupaten, Kecamatan, Kelurahan -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <!-- Provinsi -->
                 <div>
                     <label class="block text-gray-700 dark:text-gray-200 mb-1">Provinsi</label>
                     <select name="provinsi" id="provinsi"
@@ -79,7 +72,6 @@
                     </select>
                 </div>
 
-                <!-- Kabupaten / Kota -->
                 <div>
                     <label class="block text-gray-700 dark:text-gray-200 mb-1">Kabupaten / Kota</label>
                     <select name="kabupaten" id="kabupaten"
@@ -88,7 +80,6 @@
                     </select>
                 </div>
 
-                <!-- Kecamatan -->
                 <div>
                     <label class="block text-gray-700 dark:text-gray-200 mb-1">Kecamatan</label>
                     <select name="kecamatan" id="kecamatan"
@@ -97,7 +88,6 @@
                     </select>
                 </div>
 
-                <!-- Kelurahan / Desa -->
                 <div>
                     <label class="block text-gray-700 dark:text-gray-200 mb-1">Kelurahan / Desa</label>
                     <select name="kelurahan" id="kelurahan"
@@ -106,8 +96,6 @@
                     </select>
                 </div>
 
-
-                <!-- Kampung / Dusun -->
                 <div>
                     <label class="block text-gray-700 dark:text-gray-200 mb-1">Kampung / Dusun</label>
                     <input type="text" name="kampung"
@@ -115,7 +103,6 @@
                         value="{{ old('kampung') }}">
                 </div>
 
-                <!-- Alamat Jalan -->
                 <div>
                     <label class="block text-gray-700 dark:text-gray-200 mb-1">Nama Jalan / Alamat Lengkap</label>
                     <input type="text" name="alamat_jalan" placeholder="Contoh: Jl. Merdeka No.10"
@@ -123,7 +110,6 @@
                         value="{{ old('alamat_jalan') }}">
                 </div>
 
-                <!-- RT, RW, Kode Pos -->
                 <div>
                     <label class="block text-gray-700 dark:text-gray-200 mb-1">RT</label>
                     <input type="text" name="rt" placeholder="Contoh: 01"
@@ -146,7 +132,6 @@
                 </div>
             </div>
 
-            <!-- Tombol Simpan & Cancel -->
             <div class="flex gap-4">
                 <button type="submit"
                     class="w-1/2 mt-5 bg-green-500 text-white font-semibold py-3 rounded-lg hover:bg-green-600 transition-all shadow-md">

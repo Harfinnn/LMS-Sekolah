@@ -51,9 +51,9 @@
             </a>
          </li>
          <li>
-            <a href="#" class="flex items-center p-4 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <a href="{{ route('schedule.index') }}" class="flex items-center p-4 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <i class="fa fa-calendar-alt w-5 h-5 text-gray-500 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-               <span class="ms-3">Jadwal & Absensi</span>
+               <span class="ms-3">Jadwal Pelajaran</span>
             </a>
          </li>
          <li>

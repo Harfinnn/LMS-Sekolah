@@ -1,17 +1,17 @@
-import './navbar';
-import 'flowbite';
-import Typed from 'typed.js';
-import './information';
-import './information-upload'
-import './gallery'
-import './gallery-upload'
-import './alert'
-import './area-form'
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'leaflet/dist/leaflet.css'; 
-import initMaps from './map.init';
-import './partners';
+import "./navbar";
+import "flowbite";
+import Typed from "typed.js";
+import "./information";
+import "./information-upload";
+import "./gallery";
+import "./gallery-upload";
+import "./schedule-create";
+import "./alert";
+import "./area-form";
+import "swiper/css";
+import "swiper/css/pagination";
+import "leaflet/dist/leaflet.css";
+import initMaps from "./map.init";
 
 document.addEventListener("DOMContentLoaded", () => {
     const typedElement = document.getElementById("typed-text");
@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 typeSpeed: 50,
                 backSpeed: 30,
                 startDelay: 500,
-                loop: false, 
+                loop: false,
                 showCursor: true,
                 cursorChar: "|",
                 onComplete: () => {
@@ -43,6 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     initMaps();
 });

@@ -44,7 +44,6 @@ class SiswaController extends Controller
 
         DB::beginTransaction();
         try {
-            // Buat user baru untuk siswa
             $user = User::create([
                 'name' => $request->input('name'),
                 'email' => $request->input('email'),
@@ -52,7 +51,6 @@ class SiswaController extends Controller
                 'role' => 'siswa',
             ]);
 
-            // Buat data siswa
             Siswa::create([
                 'user_id' => $user->id,
                 'nis' => $request->input('nis'),
@@ -86,7 +84,6 @@ class SiswaController extends Controller
 
     public function update(Request $request, Siswa $siswa)
     {
-        // validasi: gunakan Rule::unique untuk email/nis dengan ignore pada record yang sama
         $request->validate([
             'name' => 'sometimes|required|string|max:255',
             'email' => [
@@ -117,7 +114,6 @@ class SiswaController extends Controller
             'kampung' => 'nullable|string|max:100',
         ]);
 
-        // fields siswa yang boleh diupdate
         $siswaFields = [
             'nis',
             'kelas',
@@ -136,7 +132,6 @@ class SiswaController extends Controller
 
         DB::beginTransaction();
         try {
-            // Update user jika form mengirim perubahan (name/email/password)
             $user = $siswa->user;
             if ($user) {
                 $userData = [];
@@ -154,7 +149,6 @@ class SiswaController extends Controller
                 }
             }
 
-            // Update data siswa: hanya field yang dikirim oleh form (menghindari overwrite null)
             $updateData = [];
             foreach ($siswaFields as $field) {
                 if ($request->has($field)) {
@@ -182,7 +176,6 @@ class SiswaController extends Controller
             $user = $siswa->user;
             $siswa->delete();
 
-            // hapus user terkait (opsional — hapus baris ini kalau tidak ingin menghapus akun)
             if ($user) {
                 $user->delete();
             }

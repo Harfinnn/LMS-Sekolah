@@ -79,7 +79,6 @@
             showPreview(e.target.files, previewImg, placeholder);
         });
 
-        // drag & drop on the closest label (dropzone)
         const dropzone = input.closest("label");
         if (!dropzone) return;
 
@@ -116,12 +115,10 @@
             try {
                 input.files = files;
             } catch (err) {
-                // some browsers disallow setting files programmatically; fall back to manual handling
             }
             showPreview(files, previewImg, placeholder);
         });
 
-        // Optional keyboard: clear preview when Escape is pressed while file input is focused
         document.addEventListener("keydown", (e) => {
             if (e.key === "Escape" && document.activeElement === input) {
                 input.value = "";
@@ -129,7 +126,6 @@
             }
         });
 
-        // expose for inline use if needed
         window.previewImage = function (event) {
             showPreview(event.target.files, previewImg, placeholder);
         };

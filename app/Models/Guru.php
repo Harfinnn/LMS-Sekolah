@@ -18,7 +18,6 @@ class Guru extends Model
     ];
     
 
-    // Relasi ke user
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -27,7 +26,7 @@ class Guru extends Model
     protected static function booted()
     {
         static::deleting(function ($guru) {
-            $guru->user()->delete(); // hapus user terkait
+            $guru->user()->delete();
         });
     }
 }
