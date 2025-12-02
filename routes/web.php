@@ -3,6 +3,8 @@
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\Auth\ForgotResetController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CourseMaterialController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\GuruController;
 use App\Http\Controllers\ScheduleController;
@@ -34,14 +36,25 @@ Route::get('/home', function () {
 
 Route::prefix('admin')->middleware(['auth', 'role:admin'])->group(function () {
     Route::resource('guru', GuruController::class);
+
     Route::resource('siswa', SiswaController::class);
+
     Route::resource('gallery', GalleryController::class)->parameters([
         'gallery' => 'gallery'
     ])->names('gallery');
     Route::post('gallery/reorder', [GalleryController::class, 'reorder'])->name('gallery.reorder');
+
     Route::resource('information', InformationController::class);
+
     Route::resource('schedule', ScheduleController::class);
+
+    Route::resource('courses', CourseController::class);
+
+    Route::resource('courses.materials', CourseMaterialController::class);
 });
+
+Route::get('/schedule/export', [ScheduleController::class, 'export'])
+    ->name('schedule.export');
 
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 

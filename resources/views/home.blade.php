@@ -12,7 +12,7 @@
 </section>
 
 
-<section class="p-2 sm:ml-64 grid grid-cols-1 md:grid-cols-2 gap-[30px]">
+<section class="p-8 sm:ml-64 grid grid-cols-1 md:grid-cols-2 gap-[30px]">
     <x-today-schedule />
 
     <x-upcoming-schedule />

@@ -5,39 +5,50 @@ namespace App\Http\Controllers;
 use App\Models\Schedule;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Exports\ScheduleExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Carbon\Carbon;
 
 class ScheduleController extends Controller
 {
-
-    public function index()
+    public function index(Request $request)
     {
         $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
 
-        $schedules = Schedule::orderByRaw("FIELD(day,'Senin','Selasa','Rabu','Kamis','Jumat')")
+        // Filter kelas yang dipilih (default X A)
+        $grade = $request->input('grade', 'X');
+        $class = $request->input('class', 'A');
+
+        $slots = Schedule::where('grade_level', $grade)
+            ->where('class_group', $class)
+            ->orderByRaw("FIELD(day,'Senin','Selasa','Rabu','Kamis','Jumat')")
             ->orderBy('start_time')
             ->get();
 
         $schedulesByDay = [];
-        foreach ($schedules as $s) {
-            $schedulesByDay[$s->day][] = $s;
+        foreach ($slots as $slot) {
+            $schedulesByDay[$slot->day][] = $slot;
         }
 
-        return view('schedule.index', compact('schedulesByDay'));
+        // kalau mau pakai $days di blade, tinggal kirim juga
+        return view('schedule.index', compact('schedulesByDay', 'grade', 'class'));
     }
 
     public function create()
     {
         $days = ['Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat'];
 
+        // data untuk JS "existing-slots" (semua jadwal, bebas kelas)
         $schedules = Schedule::orderBy('start_time')->get();
         $schedulesByDay = $schedules->groupBy('day')->map(function ($col) {
             return $col->map(function ($item) {
                 return [
-                    'id' => $item->id,
-                    'subject' => $item->subject,
+                    'id'         => $item->id,
+                    'subject'    => $item->subject,
                     'start_time' => $item->start_time,
-                    'end_time' => $item->end_time,
+                    'end_time'   => $item->end_time,
+                    'grade_level' => $item->grade_level,
+                    'class_group' => $item->class_group,
                 ];
             })->values()->all();
         })->toArray();
@@ -48,10 +59,12 @@ class ScheduleController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'day'     => 'required|string|in:Senin,Selasa,Rabu,Kamis,Jumat',
-            'subject' => 'required|string|max:255',
-            'start'   => 'required|date_format:H:i',
-            'end'     => 'required|date_format:H:i|after:start',
+            'day'         => 'required|string|in:Senin,Selasa,Rabu,Kamis,Jumat',
+            'subject'     => 'required|string|max:255',
+            'start'       => 'required|date_format:H:i',
+            'end'         => 'required|date_format:H:i|after:start',
+            'grade_level' => 'required|in:X,XI,XII',
+            'class_group' => 'required|in:A,B,C',
         ]);
 
         try {
@@ -62,10 +75,16 @@ class ScheduleController extends Controller
             $end   = Carbon::createFromFormat('H:i', $data['end']);
 
             if ($start->lt($schoolStart) || $end->gt($schoolEnd)) {
-                return back()->withInput()->withErrors(['start' => 'Jam harus berada dalam rentang 08:00 - 15:40.']);
+                return back()->withInput()->withErrors([
+                    'start' => 'Jam harus berada dalam rentang 08:00 - 15:40.',
+                ]);
             }
 
-            $existing = Schedule::where('day', $data['day'])->get();
+            // ⚠️ Cek tabrakan HANYA pada hari & kelas yang sama
+            $existing = Schedule::where('day', $data['day'])
+                ->where('grade_level', $data['grade_level'])
+                ->where('class_group', $data['class_group'])
+                ->get();
 
             foreach ($existing as $e) {
                 $eStart = Carbon::hasFormat($e->start_time, 'H:i:s')
@@ -78,22 +97,27 @@ class ScheduleController extends Controller
 
                 if ($start->lt($eEnd) && $end->gt($eStart)) {
                     return back()->withInput()->withErrors([
-                        'start' => "Waktu bertabrakan dengan \"{$e->subject}\" ({$e->start_time} - {$e->end_time})."
+                        'start' => "Waktu bertabrakan dengan \"{$e->subject}\" ({$e->start_time} - {$e->end_time}) di kelas yang sama.",
                     ]);
                 }
             }
 
             Schedule::create([
-                'day'        => $data['day'],
-                'subject'    => $data['subject'],
-                'start_time' => $data['start'],
-                'end_time'   => $data['end'],
+                'day'         => $data['day'],
+                'subject'     => $data['subject'],
+                'start_time'  => $data['start'],
+                'end_time'    => $data['end'],
+                'grade_level' => $data['grade_level'],
+                'class_group' => $data['class_group'],
             ]);
 
-            return redirect()->route('schedule.index')->with('success', 'Slot berhasil ditambahkan.');
+            return redirect()->route('schedule.index')
+                ->with('success', 'Slot berhasil ditambahkan.');
         } catch (\Exception $ex) {
-            \Log::error('Schedule::store exception: ' . $ex->getMessage(), ['exception' => $ex]);
-            return back()->withInput()->withErrors(['server' => 'Terjadi kesalahan di server. Cek log untuk detail.']);
+            Log::error('Schedule::store exception: ' . $ex->getMessage(), ['exception' => $ex]);
+            return back()->withInput()->withErrors([
+                'server' => 'Terjadi kesalahan di server. Cek log untuk detail.',
+            ]);
         }
     }
 
@@ -106,17 +130,48 @@ class ScheduleController extends Controller
     public function update(Request $request, Schedule $schedule)
     {
         $data = $request->validate([
-            'day'     => 'required|string|in:Senin,Selasa,Rabu,Kamis,Jumat',
-            'subject' => 'required|string|max:255',
-            'start'   => 'required|date_format:H:i',
-            'end'     => 'required|date_format:H:i|after:start',
+            'day'         => 'required|string|in:Senin,Selasa,Rabu,Kamis,Jumat',
+            'subject'     => 'required|string|max:255',
+            'start'       => 'required|date_format:H:i',
+            'end'         => 'required|date_format:H:i|after:start',
+            'grade_level' => 'required|in:X,XI,XII',
+            'class_group' => 'required|in:A,B,C',
         ]);
 
+        // (opsional) cek tabrakan juga saat update, di kelas & hari yang sama,
+        // dan skip jadwal yang sedang diedit
+        $start = Carbon::createFromFormat('H:i', $data['start']);
+        $end   = Carbon::createFromFormat('H:i', $data['end']);
+
+        $existing = Schedule::where('day', $data['day'])
+            ->where('grade_level', $data['grade_level'])
+            ->where('class_group', $data['class_group'])
+            ->where('id', '!=', $schedule->id)
+            ->get();
+
+        foreach ($existing as $e) {
+            $eStart = Carbon::hasFormat($e->start_time, 'H:i:s')
+                ? Carbon::createFromFormat('H:i:s', $e->start_time)
+                : Carbon::parse($e->start_time);
+
+            $eEnd = Carbon::hasFormat($e->end_time, 'H:i:s')
+                ? Carbon::createFromFormat('H:i:s', $e->end_time)
+                : Carbon::parse($e->end_time);
+
+            if ($start->lt($eEnd) && $end->gt($eStart)) {
+                return back()->withInput()->withErrors([
+                    'start' => "Waktu bertabrakan dengan \"{$e->subject}\" ({$e->start_time} - {$e->end_time}) di kelas yang sama.",
+                ]);
+            }
+        }
+
         $schedule->update([
-            'day'        => $data['day'],
-            'subject'    => $data['subject'],
-            'start_time' => $data['start'],
-            'end_time'   => $data['end'],
+            'day'         => $data['day'],
+            'subject'     => $data['subject'],
+            'start_time'  => $data['start'],
+            'end_time'    => $data['end'],
+            'grade_level' => $data['grade_level'],
+            'class_group' => $data['class_group'],
         ]);
 
         return redirect()->route('schedule.index')->with('success', 'Slot berhasil diperbarui.');
@@ -126,5 +181,15 @@ class ScheduleController extends Controller
     {
         $schedule->delete();
         return redirect()->route('schedule.index')->with('success', 'Slot berhasil dihapus.');
+    }
+
+    public function export(Request $request)
+    {
+        $grade = $request->input('grade', 'X');
+        $class = $request->input('class', 'A');
+
+        $fileName = "jadwal-kelas-{$grade}{$class}.xlsx";
+
+        return Excel::download(new ScheduleExport($grade, $class), $fileName);
     }
 }

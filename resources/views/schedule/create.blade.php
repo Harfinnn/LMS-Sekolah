@@ -11,11 +11,42 @@
         <form action="{{ route('schedule.store') }}" method="POST" class="space-y-4" id="create-schedule-form">
             @csrf
 
+            {{-- Tingkat & Sub Kelas --}}
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Tingkat</label>
+                    <select name="grade_level"
+                        class="w-full bg-slate-800 p-2 rounded border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <option value="" disabled {{ old('grade_level') ? '' : 'selected' }}>Pilih Tingkat</option>
+                        @foreach(['X','XI','XII'] as $g)
+                        <option value="{{ $g }}" {{ old('grade_level') == $g ? 'selected' : '' }}>
+                            {{ $g }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error('grade_level') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-slate-300 mb-1">Sub Kelas</label>
+                    <select name="class_group"
+                        class="w-full bg-slate-800 p-2 rounded border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-500">
+                        <option value="" disabled {{ old('class_group') ? '' : 'selected' }}>Pilih Sub Kelas</option>
+                        @foreach(['A','B','C'] as $c)
+                        <option value="{{ $c }}" {{ old('class_group') == $c ? 'selected' : '' }}>
+                            {{ $c }}
+                        </option>
+                        @endforeach
+                    </select>
+                    @error('class_group') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                </div>
+            </div>
+
             <div>
                 <label class="block text-sm font-medium text-slate-300 mb-1">Hari</label>
                 <select name="day" id="day-select" class="w-full bg-slate-800 p-2 rounded border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-500">
                     @foreach($days as $d)
-                        <option value="{{ $d }}" {{ old('day') == $d ? 'selected' : '' }}>{{ $d }}</option>
+                    <option value="{{ $d }}" {{ old('day') == $d ? 'selected' : '' }}>{{ $d }}</option>
                     @endforeach
                 </select>
             </div>
@@ -28,7 +59,7 @@
                     value="{{ old('subject') }}"
                     placeholder="Contoh: Matematika"
                     class="w-full bg-slate-800 p-2 rounded border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-500">
-                    @error('subject') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                @error('subject') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             <div class="grid grid-cols-2 gap-3">
@@ -67,6 +98,7 @@
 </div>
 
 <script id="schedules-data" type="application/json">
-    {!! json_encode($schedulesByDay ?? [], JSON_UNESCAPED_UNICODE|JSON_PRETTY_PRINT) !!}
+    @json($schedulesByDay ?? [])
 </script>
+
 @endsection

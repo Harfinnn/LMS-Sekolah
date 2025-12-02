@@ -45,7 +45,7 @@
          @endif
 
          <li>
-            <a href="#" class="flex items-center p-4 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+            <a href="{{ route('courses.index') }}" class="flex items-center p-4 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                <i class="fa fa-book-open w-5 h-5 text-gray-500 group-hover:text-gray-900 dark:group-hover:text-white"></i>
                <span class="ms-3">Kursus</span>
             </a>

@@ -35,19 +35,51 @@ return $colors[$index];
             <div class="px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-slate-800 bg-gradient-to-b from-slate-900/60 to-transparent">
                 <div>
                     <h1 class="text-3xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600">
-                        Jadwal Pelajaran
+                        Jadwal Pelajaran Kelas {{ $grade ?? 'X' }} {{ $class ?? 'A' }}
                     </h1>
                     <p class="text-slate-400 text-sm mt-1">Kelola slot waktu dan mata pelajaran Anda di sini.</p>
                 </div>
 
-
                 <div class="flex items-center gap-3">
-                    <a href="{{ route('schedule.create') }}" class="group relative inline-flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white font-semibold rounded-xl shadow-lg shadow-green-900/50 hover:bg-green-500 hover:-translate-y-0.5 transition-all duration-200">
+
+                    <form action="{{ route('schedule.index') }}" method="GET" class="flex items-center gap-2" id="filter-form">
+                        <select name="grade"
+                            class="bg-slate-800 border border-slate-600 text-slate-100 text-sm rounded-lg px-2 py-1"
+                            onchange="this.form.submit()">
+                            @foreach(['X','XI','XII'] as $g)
+                            <option value="{{ $g }}" {{ (isset($grade) && $grade == $g) ? 'selected' : '' }}>
+                                Kelas {{ $g }}
+                            </option>
+                            @endforeach
+                        </select>
+
+                        <select name="class"
+                            class="bg-slate-800 border border-slate-600 text-slate-100 text-sm rounded-lg px-2 py-1"
+                            onchange="this.form.submit()">
+                            @foreach(['A','B','C'] as $c)
+                            <option value="{{ $c }}" {{ (isset($class) && $class == $c) ? 'selected' : '' }}>
+                                {{ $c }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </form>
+
+                    <!-- <a href="{{ route('schedule.export', ['grade' => $grade ?? 'X', 'class' => $class ?? 'A']) }}"
+                        class="group relative inline-flex items-center gap-2 px-4 py-2 bg-slate-800 text-slate-100 font-semibold rounded-xl border border-slate-600 hover:border-slate-400 hover:-translate-y-0.5 transition-all duration-200">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
+                            <path d="M3.5 3A1.5 1.5 0 0 0 2 4.5v11A1.5 1.5 0 0 0 3.5 17h13a1.5 1.5 0 0 0 1.5-1.5v-11A1.5 1.5 0 0 0 16.5 3h-13Zm1 2h11v2h-11V5Zm0 3.5h4v2h-4v-2Zm0 3.5h4v2h-4v-2Zm5.5-3.5H15v2h-5.5v-2Zm0 3.5H15v2h-5.5v-2Z" />
+                        </svg>
+                        Export Excel
+                    </a> -->
+
+                    <a href="{{ route('schedule.create', ['grade' => $grade ?? 'X', 'class' => $class ?? 'A']) }}"
+                        class="group relative inline-flex items-center gap-2 px-5 py-2.5 bg-green-600 text-white font-semibold rounded-xl shadow-lg shadow-green-900/50 hover:bg-green-500 hover:-translate-y-0.5 transition-all duration-200">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                             <path d="M10.75 4.75a.75.75 0 0 0-1.5 0v4.5h-4.5a.75.75 0 0 0 0 1.5h4.5v4.5a.75.75 0 0 0 1.5 0v-4.5h4.5a.75.75 0 0 0 0-1.5h-4.5v-4.5Z" />
                         </svg>
                         Tambah Slot
                     </a>
+
                 </div>
             </div>
 

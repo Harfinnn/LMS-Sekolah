@@ -8,6 +8,8 @@ import "./gallery-upload";
 import "./schedule-create";
 import "./alert";
 import "./area-form";
+import "./material-form";
+import "./course-create";
 import "swiper/css";
 import "swiper/css/pagination";
 import "leaflet/dist/leaflet.css";
