@@ -45,7 +45,7 @@
                 @error('title') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
-            {{-- Urutan --}}
+            <!-- {{-- Urutan --}}
             <div>
                 <label class="block text-sm font-medium text-slate-300 mb-1">
                     Urutan
@@ -57,7 +57,7 @@
                     min="1"
                     class="w-full bg-slate-800 p-2 rounded border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-500">
                 @error('order') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
-            </div>
+            </div> -->
 
             {{-- Kategori --}}
             @php

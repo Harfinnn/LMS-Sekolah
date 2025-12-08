@@ -75,7 +75,7 @@
                     class="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg shadow">
                     Simpan Perubahan
                 </button>
-                <a href="{{ route('courses.show', $course) }}"
+                <a href="{{ route('courses.index', $course) }}"
                     class="inline-flex items-center gap-2 px-4 py-2 border border-slate-700 rounded-lg text-slate-200 hover:bg-slate-800">
                     Batal
                 </a>

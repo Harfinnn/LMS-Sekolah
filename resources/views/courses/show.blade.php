@@ -67,12 +67,13 @@
 
                     {{-- Tombol Hapus --}}
                     <form action="{{ route('courses.materials.destroy', [$course, $activeMaterial]) }}"
+                        class="inline delete-form"
                         method="POST"
                         onsubmit="return confirm('Yakin ingin menghapus materi ini?');">
                         @csrf
                         @method('DELETE')
-                        <button type="submit"
-                            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-red-600 text-white text-xs hover:bg-red-500">
+                        <button type="button"
+                            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-red-600 text-white text-xs hover:bg-red-500 btn-delete">
                             Hapus
                         </button>
                     </form>

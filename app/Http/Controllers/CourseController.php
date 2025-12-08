@@ -138,7 +138,8 @@ class CourseController extends Controller
 
         $course->update($data);
 
-        return back()->with('success', 'Course berhasil diperbarui');
+        return redirect()->route('courses.index')
+            ->with('success', 'Mata Pelajaran berhasil diperbarui.');
     }
 
     /**

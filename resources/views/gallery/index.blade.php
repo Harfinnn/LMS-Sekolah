@@ -25,7 +25,7 @@
                     <form action="{{ route('gallery.destroy', $img->id) }}" method="POST">
                         @csrf
                         @method('DELETE')
-                        <button type="button" class="px-2 py-1 bg-red-500 text-white rounded btn-delete">Hapus</button>
+                        <button type="submit" class="px-2 py-1 bg-red-500 text-white rounded">Hapus</button>
                     </form>
                 </div>
             </div>

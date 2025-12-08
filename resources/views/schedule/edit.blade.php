@@ -19,6 +19,16 @@
             </a>
         </div>
 
+        @if ($errors->any())
+        <div class="mb-4 text-red-400 text-sm">
+            <ul class="list-disc ml-4">
+                @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
         <form action="{{ route('schedule.update', $schedule->id) }}"
             method="POST"
             class="space-y-4">
@@ -52,7 +62,7 @@
                     value="{{ old('subject', $schedule->subject) }}"
                     placeholder="Contoh: Matematika"
                     class="w-full bg-slate-800 p-2 rounded border border-slate-700 focus:outline-none focus:ring-2 focus:ring-green-500">
-                    @error('subject') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                @error('subject') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
             </div>
 
             {{-- Jam --}}

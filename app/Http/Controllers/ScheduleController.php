@@ -129,23 +129,35 @@ class ScheduleController extends Controller
 
     public function update(Request $request, Schedule $schedule)
     {
+        // 1. VALIDASI HANYA FIELD YANG MEMANG DI-EDIT
         $data = $request->validate([
-            'day'         => 'required|string|in:Senin,Selasa,Rabu,Kamis,Jumat',
-            'subject'     => 'required|string|max:255',
-            'start'       => 'required|date_format:H:i',
-            'end'         => 'required|date_format:H:i|after:start',
-            'grade_level' => 'required|in:X,XI,XII',
-            'class_group' => 'required|in:A,B,C',
+            'day'     => 'required|string|in:Senin,Selasa,Rabu,Kamis,Jumat',
+            'subject' => 'required|string|max:255',
+            'start'   => 'required|date_format:H:i',
+            'end'     => 'required|date_format:H:i|after:start',
         ]);
 
-        // (opsional) cek tabrakan juga saat update, di kelas & hari yang sama,
-        // dan skip jadwal yang sedang diedit
+        // 2. CEK RANGE JAM (BIAR KONSISTEN DENGAN store())
+        $schoolStart = Carbon::createFromFormat('H:i', '08:00');
+        $schoolEnd   = Carbon::createFromFormat('H:i', '15:40');
+
         $start = Carbon::createFromFormat('H:i', $data['start']);
         $end   = Carbon::createFromFormat('H:i', $data['end']);
 
+        if ($start->lt($schoolStart) || $end->gt($schoolEnd)) {
+            return back()->withInput()->withErrors([
+                'start' => 'Jam harus berada dalam rentang 08:00 - 15:40.',
+            ]);
+        }
+
+        // 3. GUNAKAN grade_level & class_group DARI JADWAL YANG SEDANG DI-EDIT
+        $gradeLevel = $schedule->grade_level;
+        $classGroup = $schedule->class_group;
+
+        // 4. CEK TABRAKAN, TAPI DI KELAS & HARI YANG SAMA, DAN SKIP ID YANG SEDANG DI-EDIT
         $existing = Schedule::where('day', $data['day'])
-            ->where('grade_level', $data['grade_level'])
-            ->where('class_group', $data['class_group'])
+            ->where('grade_level', $gradeLevel)
+            ->where('class_group', $classGroup)
             ->where('id', '!=', $schedule->id)
             ->get();
 
@@ -165,17 +177,19 @@ class ScheduleController extends Controller
             }
         }
 
+        // 5. UPDATE FIELD YANG BOLEH DIUBAH
         $schedule->update([
-            'day'         => $data['day'],
-            'subject'     => $data['subject'],
-            'start_time'  => $data['start'],
-            'end_time'    => $data['end'],
-            'grade_level' => $data['grade_level'],
-            'class_group' => $data['class_group'],
+            'day'        => $data['day'],
+            'subject'    => $data['subject'],
+            'start_time' => $data['start'],
+            'end_time'   => $data['end'],
+            // grade_level & class_group TIDAK DIUBAH
         ]);
 
-        return redirect()->route('schedule.index')->with('success', 'Slot berhasil diperbarui.');
+        return redirect()->route('schedule.index')
+            ->with('success', 'Slot berhasil diperbarui.');
     }
+
 
     public function destroy(Schedule $schedule)
     {
